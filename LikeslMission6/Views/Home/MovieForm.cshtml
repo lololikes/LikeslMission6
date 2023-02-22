@@ -3,11 +3,19 @@
 }
 
 @model LikeslMission6.Models.MovieResponse
+
+
 <div class="text-center">
     <h4>Fill out this form to enter your movie info!</h4>
     <form method="post">
         <label asp-for="Category">Category: </label>
-        <input asp-for="Category" required />
+        <select asp-for="Id">
+            <option value="">Select a Category</option>
+            @foreach (Category c in ViewBag.categories)
+            {
+                <option value="c.Id">@c.CategoryName</option>
+            }
+        </select>
         <br />
         <label asp-for="MovieName">Movie Title: </label>
         <input asp-for="MovieName" required />

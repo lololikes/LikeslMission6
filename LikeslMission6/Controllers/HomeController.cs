@@ -1,5 +1,6 @@
 ﻿using LikeslMission6.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,11 @@ namespace LikeslMission6.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
         private MovieInfoContext _MovieInfoContext { get; set; }
 
-        public HomeController(ILogger<HomeController> logger, MovieInfoContext Moviefile)
+        public HomeController(MovieInfoContext Moviefile)
         {
-            _logger = logger;
             _MovieInfoContext = Moviefile;
         }
 
@@ -32,6 +32,7 @@ namespace LikeslMission6.Controllers
         [HttpGet]
         public IActionResult MovieForm()
         {
+            ViewBag.categories = _MovieInfoContext.categories.ToList();
   
             return View();
         }
@@ -42,10 +43,37 @@ namespace LikeslMission6.Controllers
             _MovieInfoContext.SaveChanges();
             return View("ItWorked", mr);
         }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult ListMovies()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var listItems = _MovieInfoContext.responses
+                .Include(x => x.Category)
+                //.Where(x => x.Year >= 2000)
+                .OrderBy(x => x.MovieName)
+                .ToList()
+                ;
+
+            return View(listItems);
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.categories = _MovieInfoContext.categories.ToList();
+
+            var categories = _MovieInfoContext.responses.Single(x => x.Id == id);
+
+            return View("MovieForm", categories);
+        }
+
+        [HttpPost]
+        public IActionResult Edit (MovieResponse movie)
+        {
+            _MovieInfoContext.Update(movie);
+            _MovieInfoContext.SaveChanges();
+            return RedirectToAction("ListMovies");
+        }
+        public IActionResult Delete()
+        {
+            return View(); 
         }
     }
 }
