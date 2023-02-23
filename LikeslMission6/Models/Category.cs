@@ -10,7 +10,8 @@ namespace LikeslMission6.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
+
         [Required]
         public string CategoryName { get; set; }
     }

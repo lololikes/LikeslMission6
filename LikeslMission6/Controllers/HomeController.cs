@@ -39,9 +39,17 @@ namespace LikeslMission6.Controllers
         [HttpPost]
         public IActionResult MovieForm(MovieResponse mr)
         {
+            if (ModelState.IsValid)
+            { 
             _MovieInfoContext.Add(mr);
             _MovieInfoContext.SaveChanges();
             return View("ItWorked", mr);
+            }
+            else //if invalid 
+            {
+                ViewBag.categories = _MovieInfoContext.categories.ToList();
+                return View(mr);
+            }
         }
         public IActionResult ListMovies()
         {
@@ -71,9 +79,20 @@ namespace LikeslMission6.Controllers
             _MovieInfoContext.SaveChanges();
             return RedirectToAction("ListMovies");
         }
-        public IActionResult Delete()
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            return View(); 
+
+            var movie = _MovieInfoContext.responses.Single(x => x.Id == id);
+            return View(movie);  
+        }
+
+        [HttpPost]
+        public IActionResult Delete(MovieResponse mr)
+        {
+            _MovieInfoContext.responses.Remove(mr);
+            _MovieInfoContext.SaveChanges();
+            return RedirectToAction("ListMovies");
         }
     }
 }

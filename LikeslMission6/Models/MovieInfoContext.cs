@@ -20,18 +20,18 @@ namespace LikeslMission6.Models
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<Category>().HasData(
-                new Category { Id = 1, CategoryName = "Action"},
-                new Category { Id = 2, CategoryName = "Comedy"},
-                new Category { Id = 3, CategoryName = "Drama" },
-                new Category { Id = 4, CategoryName = "Horror" },
-                new Category { Id = 5, CategoryName = "Romance" }
+                new Category { CategoryId = 1, CategoryName = "Action"},
+                new Category { CategoryId = 2, CategoryName = "Comedy"},
+                new Category { CategoryId = 3, CategoryName = "Drama" },
+                new Category { CategoryId = 4, CategoryName = "Horror" },
+                new Category { CategoryId = 5, CategoryName = "Romance" }
                 );
             mb.Entity<MovieResponse>().HasData(
                 new MovieResponse
                 {
                     Id = 1,
                     MovieName = "The Peanut Butter Falcon",
-                    MovieCategoryId = 3,
+                    CategoryId = 3,
                     Year = 2019,
                     Rating = "PG",
                     DirectorName = "Tyler Nilson",
@@ -43,7 +43,7 @@ namespace LikeslMission6.Models
                 {
                     Id = 2,
                     MovieName = "10 Things I Hate About You",
-                    MovieCategoryId = 5,
+                    CategoryId = 5,
                     Year = 1999,
                     Rating = "PG-13",
                     DirectorName = "Gilbert Wong",
@@ -55,7 +55,7 @@ namespace LikeslMission6.Models
                 {
                     Id = 3,
                     MovieName = "Top Gun: Maverick",
-                    MovieCategoryId = 1,
+                    CategoryId = 1,
                     Year = 2022,
                     Rating = "PG-13",
                     DirectorName = "Joseph Kosinski",

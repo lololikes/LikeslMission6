@@ -12,17 +12,22 @@ namespace LikeslMission6.Models
         [Key]
         [Required]
         public int Id { get; set; }
+
+        [Required (ErrorMessage ="You must enter a Movie Title duh!!")]
         public string MovieName { get; set; }
 
-        [Required]
-        public int MovieCategoryId { get; set; }
-        public Category Category { get; set; }
         public int Year { get; set; }
         public string Rating { get; set; }
         public string DirectorName { get; set; }
         public bool Edited { get; set; }
         public string LentTo { get; set; }
         public string Notes { get; set; }
-        
+
+        //Build Foreign Key relationship 
+        [Required]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+
     }
 }
